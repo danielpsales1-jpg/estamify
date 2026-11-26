@@ -32,19 +32,44 @@ const CORES = [
   { nome: "Laranja", valor: "#e87528" },
 ];
 
+/* =====================================================
+   COMPONENTE DE IMAGENS
+   Tenta diferentes combinações de maiúsculas,
+   minúsculas e extensões para encontrar os arquivos.
+===================================================== */
+
 function ImagemProduto({ basePath, alt, loading, cor = "#ffffff" }) {
-  const extensoes = [".png", ".jpg", ".jpeg", ".webp"];
-  const [extIndex, setExtIndex] = useState(0);
+  const [imagemIndex, setImagemIndex] = useState(0);
   const [esgotou, setEsgotou] = useState(false);
 
+  const caminhos = useMemo(() => {
+    const partes = basePath.split("/");
+    const nome = partes.pop();
+    const pasta = partes.join("/");
+
+    const nomes = [...new Set([
+      nome,
+      nome.toUpperCase(),
+      nome.toLowerCase(),
+    ])];
+
+    const extensoes = [".png", ".jpg", ".jpeg", ".webp"];
+
+    return nomes.flatMap((nomeArquivo) =>
+      extensoes.map((extensao) =>
+        `${pasta}/${encodeURIComponent(nomeArquivo)}${extensao}`
+      )
+    );
+  }, [basePath]);
+
   useEffect(() => {
-    setExtIndex(0);
+    setImagemIndex(0);
     setEsgotou(false);
   }, [basePath]);
 
   const handleError = () => {
-    if (extIndex + 1 < extensoes.length) {
-      setExtIndex((prev) => prev + 1);
+    if (imagemIndex + 1 < caminhos.length) {
+      setImagemIndex((prev) => prev + 1);
     } else {
       setEsgotou(true);
     }
@@ -58,11 +83,12 @@ function ImagemProduto({ basePath, alt, loading, cor = "#ffffff" }) {
     );
   }
 
-  const imagemAtual = `${basePath}${extensoes[extIndex]}`;
+  const imagemAtual = caminhos[imagemIndex];
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
       <img
+        key={imagemAtual}
         src={imagemAtual}
         alt={alt}
         loading={loading}
@@ -100,12 +126,20 @@ function ImagemProduto({ basePath, alt, loading, cor = "#ffffff" }) {
   );
 }
 
+/* =====================================================
+   VISTAS DOS PRODUTOS
+===================================================== */
+
 const VISTAS_PADRAO = (pasta) => [
-  { rotulo: "Frente", src: `${pasta}/frente` },
-  { rotulo: "Costas", src: `${pasta}/costas` },
-  { rotulo: "Manga Dir.", src: `${pasta}/manga-direita` },
-  { rotulo: "Manga Esq.", src: `${pasta}/manga-esquerda` },
+  { rotulo: "Frente", src: `${pasta}/FRENTE` },
+  { rotulo: "Costas", src: `${pasta}/COSTAS` },
+  { rotulo: "Manga Dir.", src: `${pasta}/MANGA-DIREITA` },
+  { rotulo: "Manga Esq.", src: `${pasta}/MANGA-ESQUERDA` },
 ];
+
+/* =====================================================
+   CATÁLOGO
+===================================================== */
 
 const PRODUTOS = [
   {
@@ -177,10 +211,14 @@ const PRODUTOS = [
     numero: "08",
     categoria: "Esportivo & Inverno",
     descricao:
-      "Camisetas Dry Fit personalizadas para academias, equipes esportivas, empresas e eventos. Leves, confortáveis e ideais para quem busca liberdade de movimento e identidade visual.",
-    vistas: VISTAS_PADRAO("/dry-fit"),
+      "Camisetas Dry Fit para equipes esportivas, academias, eventos e grupos. Leveza, conforto e personalização para acompanhar sua equipe.",
+    vistas: VISTAS_PADRAO("/dry fit"),
   },
 ];
+
+/* =====================================================
+   TABELAS DE MEDIDAS
+===================================================== */
 
 const MEDIDAS_POR_PRODUTO = {
   camisetas: [
@@ -311,6 +349,10 @@ const ETAPAS = [
   },
 ];
 
+/* =====================================================
+   APLICAÇÃO
+===================================================== */
+
 function App() {
   const [menuAberto, setMenuAberto] = useState(false);
   const [produtoMedidas, setProdutoMedidas] = useState(null);
@@ -339,6 +381,7 @@ function App() {
         ? "M"
         : medidas[0].tamanho
     );
+
     setProdutoMedidas(produto);
   }, []);
 
@@ -375,7 +418,11 @@ function App() {
     };
 
     atualizarProgresso();
-    window.addEventListener("scroll", atualizarProgresso, { passive: true });
+
+    window.addEventListener("scroll", atualizarProgresso, {
+      passive: true,
+    });
+
     window.addEventListener("resize", atualizarProgresso);
 
     return () => {
@@ -425,7 +472,9 @@ function App() {
     document.body.classList.add("modal-open");
 
     const aoPressionarTecla = (evento) => {
-      if (evento.key === "Escape") setProdutoMedidas(null);
+      if (evento.key === "Escape") {
+        setProdutoMedidas(null);
+      }
     };
 
     window.addEventListener("keydown", aoPressionarTecla);
@@ -486,7 +535,11 @@ function App() {
           <a href="#video" onClick={fecharMenu}>Nosso trabalho</a>
           <a href="#tecnicas" onClick={fecharMenu}>Estamparia</a>
           <a href="#sobre" onClick={fecharMenu}>Sobre</a>
-          <a href="#contato" className="nav-contact" onClick={fecharMenu}>
+          <a
+            href="#contato"
+            className="nav-contact"
+            onClick={fecharMenu}
+          >
             Fale conosco
           </a>
         </nav>
@@ -572,6 +625,7 @@ function App() {
               <span className="eyebrow">NOSSO CATÁLOGO</span>
               <h2>Escolha sua peça. A estampa é com você.</h2>
             </div>
+
             <p>
               Explore os modelos, confira as cores e veja os detalhes.
               Para personalizar e consultar valores, fale diretamente
@@ -582,10 +636,12 @@ function App() {
           <div className="price-notice">
             <span className="eyebrow">ORÇAMENTO PELO WHATSAPP</span>
             <h3>Preços sob consulta</h3>
+
             <p>
               Os valores dependem do modelo, quantidade, tamanhos e tipo
               de personalização. Entre em contato para receber seu orçamento.
             </p>
+
             <a
               className="button button-gold"
               href={linkWhatsApp(
@@ -611,7 +667,9 @@ function App() {
                   role="tab"
                   aria-selected={categoriaAtiva === cat}
                   className={
-                    categoriaAtiva === cat ? "filter-tab active" : "filter-tab"
+                    categoriaAtiva === cat
+                      ? "filter-tab active"
+                      : "filter-tab"
                   }
                   onClick={() => setCategoriaAtiva(cat)}
                 >
@@ -649,6 +707,7 @@ function App() {
                 Nenhuma peça encontrada para &ldquo;{busca}&rdquo; na
                 categoria <strong>{categoriaAtiva}</strong>.
               </p>
+
               <button
                 type="button"
                 className="button button-outline"
@@ -666,6 +725,7 @@ function App() {
                 const indiceVista = vistasAtivas[produto.id] ?? 0;
                 const vistaAtual = produto.vistas[indiceVista];
                 const corAtual = coresAtivas[produto.id] ?? "#ffffff";
+
                 const temMedidas = Boolean(
                   MEDIDAS_POR_PRODUTO[produto.id]?.length
                 );
@@ -692,7 +752,10 @@ function App() {
                         cor={corAtual}
                       />
 
-                      <span className="product-number">{produto.numero}</span>
+                      <span className="product-number">
+                        {produto.numero}
+                      </span>
+
                       <span className="gallery-label">
                         {vistaAtual.rotulo.toUpperCase()}
                       </span>
@@ -719,8 +782,12 @@ function App() {
                             key={vista.rotulo}
                             type="button"
                             aria-pressed={ativa}
-                            className={ativa ? "thumb-btn active" : "thumb-btn"}
-                            onClick={() => selecionarVista(produto.id, indice)}
+                            className={
+                              ativa ? "thumb-btn active" : "thumb-btn"
+                            }
+                            onClick={() =>
+                              selecionarVista(produto.id, indice)
+                            }
                           >
                             {vista.rotulo}
                           </button>
@@ -803,6 +870,7 @@ function App() {
                       </span>
 
                       <h3>{produto.nome}</h3>
+
                       <p>{produto.descricao}</p>
 
                       <p className="product-price-note">
@@ -822,11 +890,14 @@ function App() {
 
                         <a
                           className="product-whatsapp"
-                          href={linkWhatsApp(mensagemProduto(produto.nome))}
+                          href={linkWhatsApp(
+                            mensagemProduto(produto.nome)
+                          )}
                           target="_blank"
                           rel="noreferrer"
                         >
-                          Personalizar e consultar <span aria-hidden="true">↗</span>
+                          Personalizar e consultar{" "}
+                          <span aria-hidden="true">↗</span>
                         </a>
                       </div>
                     </div>
@@ -849,6 +920,7 @@ function App() {
               <span className="eyebrow">ESTAMIFY NA PRÁTICA</span>
               <h2>Por trás de cada estampa.</h2>
             </div>
+
             <p>
               Conheça um pouco do nosso trabalho e veja como
               transformamos ideias em produtos personalizados.
@@ -873,6 +945,7 @@ function App() {
               <span className="eyebrow">NOSSA ESTAMPARIA</span>
               <h2>Sua ideia ganha vida na estampa.</h2>
             </div>
+
             <p>
               Conheça algumas das técnicas que utilizamos para transformar
               suas artes em peças personalizadas.
@@ -886,6 +959,7 @@ function App() {
                 <span className="tech-label">{tecnica.nome}</span>
                 <h3>{tecnica.titulo}</h3>
                 <p>{tecnica.descricao}</p>
+
                 <ul>
                   {tecnica.pontos.map((ponto) => (
                     <li key={ponto}>{ponto}</li>
@@ -930,6 +1004,7 @@ function App() {
           <div>
             <span className="eyebrow">INFORMAÇÕES IMPORTANTES</span>
             <h2>Vamos tirar sua ideia do papel?</h2>
+
             <p>
               Trabalhamos com <strong>pedido mínimo de 20 peças</strong>.
               Os preços são informados pelo WhatsApp e variam conforme
@@ -953,6 +1028,7 @@ function App() {
         <section className="contact-section reveal" id="contato">
           <span className="eyebrow">FALE COM A ESTAMIFY</span>
           <h2>Tem uma ideia? Vamos personalizar!</h2>
+
           <p>
             Escolha seu produto, conte o que você precisa e envie sua arte
             pelo WhatsApp. Nossa equipe conversa com você e prepara seu
@@ -967,7 +1043,8 @@ function App() {
             target="_blank"
             rel="noreferrer"
           >
-            <span>Falar com a equipe</span> <span aria-hidden="true">↗</span>
+            <span>Falar com a equipe</span>{" "}
+            <span aria-hidden="true">↗</span>
           </a>
         </section>
       </main>
@@ -1060,6 +1137,7 @@ function App() {
                     <th>Comprimento</th>
                   </tr>
                 </thead>
+
                 <tbody>
                   {(MEDIDAS_POR_PRODUTO[produtoMedidas.id] || []).map(
                     (item) => (
@@ -1070,7 +1148,9 @@ function App() {
                             ? "selected-row"
                             : undefined
                         }
-                        onClick={() => setTamanhoSelecionado(item.tamanho)}
+                        onClick={() =>
+                          setTamanhoSelecionado(item.tamanho)
+                        }
                         style={{ cursor: "pointer" }}
                       >
                         <td><strong>{item.tamanho}</strong></td>
@@ -1091,7 +1171,8 @@ function App() {
               target="_blank"
               rel="noreferrer"
             >
-              Consultar tamanho no WhatsApp <span aria-hidden="true">↗</span>
+              Consultar tamanho no WhatsApp{" "}
+              <span aria-hidden="true">↗</span>
             </a>
           </div>
         </div>
