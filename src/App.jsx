@@ -519,9 +519,7 @@ function App() {
                 e.currentTarget.style.display = "none";
               }}
             />
-            <span className="hero-shirt-caption">
-              PERSONALIZE DO SEU JEITO
-            </span>
+          
           </div>
         </section>
 
