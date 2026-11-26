@@ -366,6 +366,7 @@ function App() {
     };
   }, []);
 
+  // Animações de entrada com observação mais leve e confiável.
   useEffect(() => {
     const elementos = document.querySelectorAll(".reveal");
 
@@ -383,10 +384,18 @@ function App() {
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -30px 0px" }
+      {
+        threshold: 0,
+        rootMargin: "0px 0px 100px 0px",
+      }
     );
 
-    elementos.forEach((el) => observer.observe(el));
+    elementos.forEach((el) => {
+      if (!el.classList.contains("is-visible")) {
+        observer.observe(el);
+      }
+    });
+
     return () => observer.disconnect();
   }, [produtosFiltrados]);
 
@@ -519,7 +528,6 @@ function App() {
                 e.currentTarget.style.display = "none";
               }}
             />
-          
           </div>
         </section>
 
@@ -541,7 +549,11 @@ function App() {
           </p>
         </section>
 
-        <section className="products-section reveal" id="produtos">
+        {/* CATÁLOGO: VISÍVEL DESDE O CARREGAMENTO */}
+        <section
+          className="products-section reveal is-visible"
+          id="produtos"
+        >
           <div className="section-heading">
             <div>
               <span className="eyebrow">NOSSO CATÁLOGO</span>
