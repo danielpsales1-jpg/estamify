@@ -1478,3 +1478,34 @@ section {
     line-height: 1.2;
   }
 }
+
+/* CORREÇÃO DEFINITIVA: CONTEÚDO VISÍVEL NO CELULAR */
+
+@media (max-width: 720px) {
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .products-section {
+    display: block;
+    width: 100%;
+    min-height: auto;
+  }
+
+  .product-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100%;
+    gap: 20px;
+  }
+
+  .product-card {
+    display: flex !important;
+    width: 100%;
+    min-width: 0;
+  }
+}
