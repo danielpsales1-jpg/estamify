@@ -1445,17 +1445,36 @@ section {
   text-shadow: 0 3px 18px rgba(210, 177, 141, 0.25);
 }
 
+
 @media (max-width: 720px) {
+  .hero {
+    gap: 10px;
+    padding-top: 28px;
+    padding-bottom: 24px;
+    min-height: auto;
+  }
+
+  .hero-visual {
+    margin: 0;
+    padding: 0;
+    min-height: 0;
+  }
+
   .hero-shirt-visual {
-    gap: 12px;
+    gap: 5px;
   }
 
   .hero-shirt-visual img {
-    max-height: 340px;
+    width: 100%;
+    max-height: 230px;
+    object-fit: contain;
   }
 
   .hero-shirt-caption {
-    font-size: 21px;
-    letter-spacing: 2px;
+    margin: 0;
+    padding: 5px 8px;
+    font-size: 19px;
+    letter-spacing: 1.5px;
+    line-height: 1.2;
   }
 }
