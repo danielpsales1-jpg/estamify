@@ -23,10 +23,14 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 90px;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
+  width: 100%;
+  min-width: 320px;
+  overflow-x: clip;
   background: var(--bg);
   color: var(--text);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -47,7 +51,8 @@ body.modal-open {
   overflow: hidden;
 }
 
-img {
+img,
+video {
   display: block;
   max-width: 100%;
 }
@@ -97,8 +102,6 @@ button {
   border-bottom: 1px solid var(--border);
 }
 
-/* LOGO */
-
 .logo {
   display: inline-flex;
   align-items: center;
@@ -113,7 +116,6 @@ button {
 .logo-name {
   display: inline-flex;
   align-items: center;
-  gap: 0;
   color: var(--text);
   letter-spacing: 0.04em;
   line-height: 1;
@@ -126,7 +128,6 @@ button {
 .logo-tag {
   display: inline-flex;
   align-items: center;
-  margin-left: 0;
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -206,14 +207,6 @@ button {
   transform: translateY(-2px);
 }
 
-.button:focus-visible,
-button:focus-visible,
-a:focus-visible,
-input:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-
 .button-gold {
   background: var(--accent);
   color: #171717;
@@ -237,6 +230,14 @@ input:focus-visible {
   background: rgba(210, 177, 141, 0.06);
 }
 
+.button:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .eyebrow {
   display: inline-block;
   font-size: 0.75rem;
@@ -247,7 +248,7 @@ input:focus-visible {
   margin-bottom: 12px;
 }
 
-/* ÁREA PRINCIPAL */
+/* DESTAQUE PRINCIPAL */
 
 .hero {
   --spot-x: 75%;
@@ -352,6 +353,40 @@ input:focus-visible {
   display: none;
 }
 
+/* PERSONALIZE DO SEU JEITO */
+
+.hero-shirt-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  overflow: visible;
+}
+
+.hero-shirt-visual img {
+  width: 100%;
+  max-width: 680px;
+  max-height: 440px;
+  object-fit: contain;
+}
+
+.hero-shirt-caption {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 10px 12px;
+  font-family: Arial, sans-serif;
+  font-size: clamp(21px, 3vw, 32px);
+  font-weight: 800;
+  letter-spacing: 3px;
+  line-height: 1.3;
+  color: var(--accent);
+  text-transform: uppercase;
+  text-shadow: 0 3px 18px rgba(210, 177, 141, 0.25);
+}
+
 /* SEÇÕES */
 
 section {
@@ -396,7 +431,13 @@ section {
   max-width: 720px;
 }
 
-/* CATÁLOGO E PESQUISA */
+/* CATÁLOGO */
+
+.products-section {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
 
 .catalog-toolbar {
   display: flex;
@@ -646,9 +687,7 @@ section {
 }
 
 .product-colors button {
-  transition:
-    transform var(--transition),
-    box-shadow var(--transition);
+  transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .product-colors button:hover {
@@ -767,6 +806,57 @@ section {
   margin-bottom: 18px;
   color: var(--muted);
   line-height: 1.7;
+}
+
+/* VÍDEO - SERVIÇOS REALIZADOS */
+
+.services-video-section {
+  padding: 76px 5%;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(210, 177, 141, 0.08), transparent 55%),
+    var(--bg);
+}
+
+.services-video-section .section-heading {
+  margin-bottom: 28px;
+}
+
+.services-video-section .section-heading h2 {
+  color: var(--text);
+}
+
+.services-video-section .section-heading p {
+  color: var(--muted);
+}
+
+.services-video-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 12px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 18px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+}
+
+.services-video-container video {
+  display: block;
+  width: 100%;
+  max-height: 620px;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #0c0c0c;
+  border-radius: 10px;
+}
+
+.services-video-caption {
+  max-width: 1000px;
+  margin: 16px auto 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
 }
 
 /* TÉCNICAS, BENEFÍCIOS E ETAPAS */
@@ -1087,7 +1177,7 @@ section {
   transform: none;
 }
 
-/* TABLETS E TELAS MENORES */
+/* TABLETS */
 
 @media (max-width: 1100px) {
   .navbar {
@@ -1112,6 +1202,8 @@ section {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* TELAS MENORES */
 
 @media (max-width: 800px) {
   .hero {
@@ -1192,8 +1284,9 @@ section {
   }
 
   .hero {
-    padding: 42px 5%;
-    gap: 24px;
+    padding: 28px 5% 24px;
+    gap: 10px;
+    min-height: auto;
   }
 
   .hero h1 {
@@ -1220,22 +1313,51 @@ section {
 
   .hero-visual {
     width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: 0;
   }
 
   .hero-visual img {
     max-width: 100%;
-    max-height: 360px;
+    max-height: 230px;
+  }
+
+  .hero-shirt-visual {
+    gap: 5px;
+  }
+
+  .hero-shirt-visual img {
+    width: 100%;
+    max-height: 230px;
+    object-fit: contain;
+  }
+
+  .hero-shirt-caption {
+    margin: 0;
+    padding: 5px 8px;
+    font-size: 19px;
+    letter-spacing: 1.5px;
+    line-height: 1.2;
+  }
+
+  .section-heading {
+    gap: 12px;
+    margin-bottom: 24px;
   }
 
   .product-grid,
   .technique-grid,
   .benefits-grid,
   .process-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
   }
 
   .catalog-toolbar {
     align-items: stretch;
+    gap: 14px;
+    margin-bottom: 22px;
   }
 
   .filter-tabs {
@@ -1288,6 +1410,34 @@ section {
     font-size: 1.35rem;
   }
 
+  /* VÍDEO NO CELULAR */
+
+  .services-video-section {
+    padding: 42px 5%;
+  }
+
+  .services-video-section .section-heading {
+    margin-bottom: 20px;
+  }
+
+  .services-video-container {
+    padding: 7px;
+    border-radius: 13px;
+  }
+
+  .services-video-container video {
+    width: 100%;
+    max-height: 70svh;
+    aspect-ratio: 9 / 16;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  .services-video-caption {
+    font-size: 0.82rem;
+    padding-inline: 8px;
+  }
+
   .order-section {
     margin: 28px 4%;
     padding: 28px 22px;
@@ -1309,6 +1459,42 @@ section {
     padding: 11px 16px;
     font-size: 0.82rem;
   }
+
+  /* GARANTE A VISIBILIDADE DAS SEÇÕES NO MOBILE */
+
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .products-section,
+  .product-grid,
+  .product-card {
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .products-section {
+    display: block;
+    width: 100%;
+    min-height: auto;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+  }
+
+  .product-card {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+  }
 }
 
 /* CELULARES PEQUENOS */
@@ -1325,7 +1511,7 @@ section {
   }
 
   .hero {
-    padding: 34px 5%;
+    padding: 28px 5% 22px;
   }
 
   .hero h1 {
@@ -1389,6 +1575,10 @@ section {
   .measure-table td {
     padding: 9px 7px;
   }
+
+  .services-video-section {
+    padding: 36px 4%;
+  }
 }
 
 /* ACESSIBILIDADE */
@@ -1408,104 +1598,46 @@ section {
   }
 }
 
-/* DESTAQUE PERSONALIZE DO SEU JEITO */
-
-.hero-shirt-visual {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  overflow: visible;
+/* SEÇÃO DE VÍDEO */
+.video-section {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 80px 0;
 }
 
-.hero-shirt-visual img {
+.video-container {
   width: 100%;
-  max-width: 680px;
-  max-height: 440px;
-  object-fit: contain;
+  max-width: 1000px;
+  margin: 36px auto 0;
+  overflow: hidden;
+  background: #080808;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.35);
 }
 
-.hero-shirt-caption {
+.video-container video {
   display: block;
   width: 100%;
-  text-align: center;
-  margin: 0;
-  padding: 10px 12px;
-
-  font-family: "Arial", sans-serif;
-  font-size: clamp(21px, 3vw, 32px);
-  font-weight: 800;
-  letter-spacing: 3px;
-  line-height: 1.3;
-
-  color: var(--accent);
-  text-transform: uppercase;
-
-  text-shadow: 0 3px 18px rgba(210, 177, 141, 0.25);
+  max-height: 620px;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #080808;
 }
 
-
 @media (max-width: 720px) {
-  .hero {
-    gap: 10px;
-    padding-top: 28px;
-    padding-bottom: 24px;
-    min-height: auto;
+  .video-section {
+    width: calc(100% - 32px);
+    padding: 42px 0;
   }
 
-  .hero-visual {
-    margin: 0;
-    padding: 0;
-    min-height: 0;
+  .video-container {
+    margin-top: 24px;
+    border-radius: 12px;
   }
 
-  .hero-shirt-visual {
-    gap: 5px;
-  }
-
-  .hero-shirt-visual img {
-    width: 100%;
-    max-height: 230px;
-    object-fit: contain;
-  }
-
-  .hero-shirt-caption {
-    margin: 0;
-    padding: 5px 8px;
-    font-size: 19px;
-    letter-spacing: 1.5px;
-    line-height: 1.2;
-  }
-}
-
-/* CORREÇÃO DEFINITIVA: CONTEÚDO VISÍVEL NO CELULAR */
-
-@media (max-width: 720px) {
-  .reveal,
-  .reveal.is-visible {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  .products-section {
-    display: block;
-    width: 100%;
-    min-height: auto;
-  }
-
-  .product-grid {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-    width: 100%;
-    gap: 20px;
-  }
-
-  .product-card {
-    display: flex !important;
-    width: 100%;
-    min-width: 0;
+  .video-container video {
+    max-height: 420px;
+    aspect-ratio: 16 / 9;
   }
 }

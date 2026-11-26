@@ -366,7 +366,6 @@ function App() {
     };
   }, []);
 
-  // Animações de entrada com observação mais leve e confiável.
   useEffect(() => {
     const elementos = document.querySelectorAll(".reveal");
 
@@ -466,6 +465,7 @@ function App() {
         >
           <a href="#inicio" onClick={fecharMenu}>Início</a>
           <a href="#produtos" onClick={fecharMenu}>Produtos</a>
+          <a href="#video" onClick={fecharMenu}>Nosso trabalho</a>
           <a href="#tecnicas" onClick={fecharMenu}>Estamparia</a>
           <a href="#sobre" onClick={fecharMenu}>Sobre</a>
           <a href="#contato" className="nav-contact" onClick={fecharMenu}>
@@ -475,7 +475,6 @@ function App() {
       </header>
 
       <main>
-        {/* DESTAQUE PRINCIPAL */}
         <section
           className="hero hero-showcase"
           id="inicio"
@@ -483,9 +482,7 @@ function App() {
           onMouseMove={handleHeroMouseMove}
         >
           <div className="hero-content">
-            <span className="eyebrow">
-              ESTAMIFY • PERSONALIZAÇÃO
-            </span>
+            <span className="eyebrow">ESTAMIFY • PERSONALIZAÇÃO</span>
 
             <h1>
               SUA CAMISETA.
@@ -531,7 +528,6 @@ function App() {
           </div>
         </section>
 
-        {/* QUEM SOMOS */}
         <section className="intro-section reveal" id="sobre">
           <span className="eyebrow">QUEM SOMOS</span>
 
@@ -549,7 +545,6 @@ function App() {
           </p>
         </section>
 
-        {/* CATÁLOGO: VISÍVEL DESDE O CARREGAMENTO */}
         <section
           className="products-section reveal is-visible"
           id="produtos"
@@ -823,6 +818,31 @@ function App() {
             são ilustrativas. Modelos, cores, disponibilidade e valores
             devem ser confirmados pelo WhatsApp.
           </p>
+        </section>
+
+        {/* NOVA SEÇÃO DE VÍDEO */}
+        <section className="video-section reveal" id="video">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">ESTAMIFY NA PRÁTICA</span>
+              <h2>Por trás de cada estampa.</h2>
+            </div>
+            <p>
+              Conheça um pouco do nosso trabalho e veja como
+              transformamos ideias em produtos personalizados.
+            </p>
+          </div>
+
+          <div className="video-container">
+            <video
+              src="/video.mp4"
+              controls
+              playsInline
+              preload="metadata"
+            >
+              Seu navegador não conseguiu reproduzir este vídeo.
+            </video>
+          </div>
         </section>
 
         <section className="techniques-section reveal" id="tecnicas">
