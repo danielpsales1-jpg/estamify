@@ -162,6 +162,24 @@ const PRODUTOS = [
       "Modelagem gola careca encorpada para marcas, eventos e dias mais frios.",
     vistas: VISTAS_PADRAO("/moletom-sem-gorro"),
   },
+  {
+    id: "polo",
+    nome: "Camiseta Polo",
+    numero: "07",
+    categoria: "Corporativo & Uniformes",
+    descricao:
+      "Camisetas polo personalizadas para empresas, equipes e marcas. Uma opção elegante e profissional para uniformes e identificação da sua equipe.",
+    vistas: VISTAS_PADRAO("/polo"),
+  },
+  {
+    id: "dry-fit",
+    nome: "Camiseta Dry Fit",
+    numero: "08",
+    categoria: "Esportivo & Inverno",
+    descricao:
+      "Camisetas Dry Fit personalizadas para academias, equipes esportivas, empresas e eventos. Leves, confortáveis e ideais para quem busca liberdade de movimento e identidade visual.",
+    vistas: VISTAS_PADRAO("/dry-fit"),
+  },
 ];
 
 const MEDIDAS_POR_PRODUTO = {
@@ -606,7 +624,7 @@ function App() {
               <input
                 type="search"
                 className="search-input"
-                placeholder="Buscar peça (ex: camiseta, moletom)..."
+                placeholder="Buscar peça (ex: camiseta, polo, dry fit)..."
                 value={busca}
                 onChange={(e) => setBusca(e.target.value)}
                 aria-label="Buscar produto no catálogo"
@@ -648,6 +666,9 @@ function App() {
                 const indiceVista = vistasAtivas[produto.id] ?? 0;
                 const vistaAtual = produto.vistas[indiceVista];
                 const corAtual = coresAtivas[produto.id] ?? "#ffffff";
+                const temMedidas = Boolean(
+                  MEDIDAS_POR_PRODUTO[produto.id]?.length
+                );
 
                 return (
                   <article className="product-card" key={produto.id}>
@@ -789,13 +810,15 @@ function App() {
                       </p>
 
                       <div className="product-actions">
-                        <button
-                          type="button"
-                          className="text-button"
-                          onClick={() => abrirModalMedidas(produto)}
-                        >
-                          Ver medidas <span aria-hidden="true">↗</span>
-                        </button>
+                        {temMedidas && (
+                          <button
+                            type="button"
+                            className="text-button"
+                            onClick={() => abrirModalMedidas(produto)}
+                          >
+                            Ver medidas <span aria-hidden="true">↗</span>
+                          </button>
+                        )}
 
                         <a
                           className="product-whatsapp"
@@ -820,7 +843,6 @@ function App() {
           </p>
         </section>
 
-        {/* NOVA SEÇÃO DE VÍDEO */}
         <section className="video-section reveal" id="video">
           <div className="section-heading">
             <div>

@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+/* ========================================
+   CONFIGURAÇÕES GERAIS
+======================================== */
+
 :root {
   --bg: #171717;
   --surface: #1e1e1e;
@@ -70,7 +74,9 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* PROGRESSO DA PÁGINA */
+/* ========================================
+   PROGRESSO DA PÁGINA
+======================================== */
 
 .scroll-progress {
   position: fixed;
@@ -84,7 +90,9 @@ button {
   pointer-events: none;
 }
 
-/* CABEÇALHO */
+/* ========================================
+   CABEÇALHO
+======================================== */
 
 .navbar {
   position: sticky;
@@ -181,7 +189,9 @@ button {
   cursor: pointer;
 }
 
-/* BOTÕES */
+/* ========================================
+   BOTÕES
+======================================== */
 
 .button {
   display: inline-flex;
@@ -248,11 +258,14 @@ input:focus-visible {
   margin-bottom: 12px;
 }
 
-/* DESTAQUE PRINCIPAL */
+/* ========================================
+   DESTAQUE PRINCIPAL
+======================================== */
 
 .hero {
   --spot-x: 75%;
   --spot-y: 35%;
+
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
@@ -261,6 +274,7 @@ input:focus-visible {
   min-height: 570px;
   padding: 65px 5%;
   overflow: hidden;
+
   background:
     radial-gradient(
       circle at var(--spot-x) var(--spot-y),
@@ -268,6 +282,7 @@ input:focus-visible {
       transparent 45%
     ),
     var(--bg);
+
   border-bottom: 1px solid var(--border);
 }
 
@@ -387,7 +402,9 @@ input:focus-visible {
   text-shadow: 0 3px 18px rgba(210, 177, 141, 0.25);
 }
 
-/* SEÇÕES */
+/* ========================================
+   SEÇÕES
+======================================== */
 
 section {
   padding: 76px 5%;
@@ -431,7 +448,9 @@ section {
   max-width: 720px;
 }
 
-/* CATÁLOGO */
+/* ========================================
+   CATÁLOGO
+======================================== */
 
 .products-section {
   display: block;
@@ -528,19 +547,23 @@ section {
   margin: 0 0 20px;
 }
 
-/* PRODUTOS */
+/* ========================================
+   PRODUTOS
+======================================== */
 
 .product-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
   align-items: stretch;
+  width: 100%;
 }
 
 .product-card {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  width: 100%;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 16px;
@@ -608,7 +631,9 @@ section {
   overflow-wrap: anywhere;
 }
 
-/* MINIATURAS */
+/* ========================================
+   MINIATURAS
+======================================== */
 
 .product-thumbs {
   display: grid;
@@ -675,7 +700,9 @@ section {
   outline-offset: 3px;
 }
 
-/* CORES */
+/* ========================================
+   CORES DOS PRODUTOS
+======================================== */
 
 .product-colors {
   background: #171717;
@@ -694,12 +721,15 @@ section {
   transform: scale(1.12);
 }
 
-/* INFORMAÇÕES DOS PRODUTOS */
+/* ========================================
+   INFORMAÇÕES DOS PRODUTOS
+======================================== */
 
 .product-content {
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-width: 0;
   padding: 18px 20px 22px;
   gap: 0;
 }
@@ -739,8 +769,9 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 12px;
-  margin-top: 8px;
+  margin-top: auto;
   padding-top: 14px;
   border-top: 1px solid var(--border);
 }
@@ -785,7 +816,9 @@ section {
   line-height: 1.6;
 }
 
-/* AVISO DE PREÇOS */
+/* ========================================
+   AVISO DE PREÇOS
+======================================== */
 
 .price-notice {
   margin: 30px 0;
@@ -808,12 +841,20 @@ section {
   line-height: 1.7;
 }
 
-/* VÍDEO - SERVIÇOS REALIZADOS */
+/* ========================================
+   VÍDEO - SERVIÇOS REALIZADOS
+======================================== */
 
-.services-video-section {
+.services-video-section,
+.video-section {
+  width: 100%;
   padding: 76px 5%;
   background:
-    radial-gradient(circle at 50% 0%, rgba(210, 177, 141, 0.08), transparent 55%),
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(210, 177, 141, 0.08),
+      transparent 55%
+    ),
     var(--bg);
 }
 
@@ -829,25 +870,27 @@ section {
   color: var(--muted);
 }
 
-.services-video-container {
+.services-video-container,
+.video-container {
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
   padding: 12px;
   overflow: hidden;
-  background: var(--surface);
+  background: #080808;
   border: 1px solid var(--border-strong);
   border-radius: 18px;
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
 }
 
-.services-video-container video {
+.services-video-container video,
+.video-container video {
   display: block;
   width: 100%;
   max-height: 620px;
   aspect-ratio: 16 / 9;
   object-fit: contain;
-  background: #0c0c0c;
+  background: #080808;
   border-radius: 10px;
 }
 
@@ -859,7 +902,9 @@ section {
   text-align: center;
 }
 
-/* TÉCNICAS, BENEFÍCIOS E ETAPAS */
+/* ========================================
+   TÉCNICAS, BENEFÍCIOS E ETAPAS
+======================================== */
 
 .technique-grid,
 .benefits-grid,
@@ -940,7 +985,9 @@ section {
   margin-top: 7px;
 }
 
-/* ORÇAMENTO */
+/* ========================================
+   ORÇAMENTO
+======================================== */
 
 .order-section {
   display: flex;
@@ -948,7 +995,11 @@ section {
   justify-content: space-between;
   gap: 30px;
   background:
-    radial-gradient(circle at 90% 20%, rgba(210, 177, 141, 0.1), transparent 40%),
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(210, 177, 141, 0.1),
+      transparent 40%
+    ),
     var(--surface);
   margin: 48px 5%;
   border: 1px solid var(--border-strong);
@@ -980,7 +1031,9 @@ section {
   margin: 14px auto 24px;
 }
 
-/* RODAPÉ */
+/* ========================================
+   RODAPÉ
+======================================== */
 
 .footer {
   padding: 36px 5%;
@@ -1002,7 +1055,9 @@ section {
   margin: 0;
 }
 
-/* WHATSAPP FLUTUANTE */
+/* ========================================
+   WHATSAPP FLUTUANTE
+======================================== */
 
 .floating-whatsapp {
   position: fixed;
@@ -1028,7 +1083,9 @@ section {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.42);
 }
 
-/* MODAL DE MEDIDAS */
+/* ========================================
+   MODAL DE MEDIDAS
+======================================== */
 
 .modal-overlay {
   position: fixed;
@@ -1162,7 +1219,9 @@ section {
   width: 100%;
 }
 
-/* ANIMAÇÕES */
+/* ========================================
+   ANIMAÇÕES
+======================================== */
 
 .reveal {
   opacity: 0;
@@ -1177,7 +1236,9 @@ section {
   transform: none;
 }
 
-/* TABLETS */
+/* ========================================
+   TABLETS
+======================================== */
 
 @media (max-width: 1100px) {
   .navbar {
@@ -1203,12 +1264,14 @@ section {
   }
 }
 
-/* TELAS MENORES */
+/* ========================================
+   TELAS MENORES
+======================================== */
 
 @media (max-width: 800px) {
   .hero {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 24px;
     min-height: auto;
     padding: 48px 5%;
   }
@@ -1235,9 +1298,15 @@ section {
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .order-section > a {
+    width: 100%;
+  }
 }
 
-/* CELULARES */
+/* ========================================
+   CELULARES
+======================================== */
 
 @media (max-width: 720px) {
   html {
@@ -1285,7 +1354,7 @@ section {
 
   .hero {
     padding: 28px 5% 24px;
-    gap: 10px;
+    gap: 12px;
     min-height: auto;
   }
 
@@ -1352,6 +1421,7 @@ section {
   .process-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 18px;
+    width: 100%;
   }
 
   .catalog-toolbar {
@@ -1375,12 +1445,11 @@ section {
   }
 
   .product-gallery-main {
-    height: 320px;
+    height: 300px;
   }
 
   .product-content {
     padding: 14px 16px 18px;
-    gap: 0;
   }
 
   .product-content h3 {
@@ -1397,7 +1466,7 @@ section {
   }
 
   .product-actions {
-    margin-top: 6px;
+    margin-top: auto;
     padding-top: 10px;
   }
 
@@ -1412,7 +1481,8 @@ section {
 
   /* VÍDEO NO CELULAR */
 
-  .services-video-section {
+  .services-video-section,
+  .video-section {
     padding: 42px 5%;
   }
 
@@ -1420,12 +1490,14 @@ section {
     margin-bottom: 20px;
   }
 
-  .services-video-container {
+  .services-video-container,
+  .video-container {
     padding: 7px;
     border-radius: 13px;
   }
 
-  .services-video-container video {
+  .services-video-container video,
+  .video-container video {
     width: 100%;
     max-height: 70svh;
     aspect-ratio: 9 / 16;
@@ -1438,6 +1510,8 @@ section {
     padding-inline: 8px;
   }
 
+  /* ORÇAMENTO */
+
   .order-section {
     margin: 28px 4%;
     padding: 28px 22px;
@@ -1447,11 +1521,15 @@ section {
     width: 100%;
   }
 
+  /* RODAPÉ */
+
   .footer {
     flex-direction: column;
     align-items: flex-start;
     padding: 30px 5%;
   }
+
+  /* WHATSAPP */
 
   .floating-whatsapp {
     right: 14px;
@@ -1460,7 +1538,7 @@ section {
     font-size: 0.82rem;
   }
 
-  /* GARANTE A VISIBILIDADE DAS SEÇÕES NO MOBILE */
+  /* VISIBILIDADE DAS SEÇÕES NO MOBILE */
 
   .reveal,
   .reveal.is-visible {
@@ -1473,7 +1551,6 @@ section {
   .products-section,
   .product-grid,
   .product-card {
-    display: flex;
     visibility: visible;
     opacity: 1;
   }
@@ -1487,7 +1564,6 @@ section {
   .product-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    width: 100%;
   }
 
   .product-card {
@@ -1497,7 +1573,9 @@ section {
   }
 }
 
-/* CELULARES PEQUENOS */
+/* ========================================
+   CELULARES PEQUENOS
+======================================== */
 
 @media (max-width: 420px) {
   .logo {
@@ -1519,11 +1597,11 @@ section {
   }
 
   .hero-visual img {
-    max-height: 290px;
+    max-height: 230px;
   }
 
   .product-gallery-main {
-    height: 280px;
+    height: 270px;
     padding: 14px;
   }
 
@@ -1576,12 +1654,15 @@ section {
     padding: 9px 7px;
   }
 
-  .services-video-section {
+  .services-video-section,
+  .video-section {
     padding: 36px 4%;
   }
 }
 
-/* ACESSIBILIDADE */
+/* ========================================
+   ACESSIBILIDADE
+======================================== */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -1595,49 +1676,5 @@ section {
   .reveal {
     opacity: 1;
     transform: none;
-  }
-}
-
-/* SEÇÃO DE VÍDEO */
-.video-section {
-  width: min(1180px, calc(100% - 48px));
-  margin: 0 auto;
-  padding: 80px 0;
-}
-
-.video-container {
-  width: 100%;
-  max-width: 1000px;
-  margin: 36px auto 0;
-  overflow: hidden;
-  background: #080808;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.35);
-}
-
-.video-container video {
-  display: block;
-  width: 100%;
-  max-height: 620px;
-  aspect-ratio: 16 / 9;
-  object-fit: contain;
-  background: #080808;
-}
-
-@media (max-width: 720px) {
-  .video-section {
-    width: calc(100% - 32px);
-    padding: 42px 0;
-  }
-
-  .video-container {
-    margin-top: 24px;
-    border-radius: 12px;
-  }
-
-  .video-container video {
-    max-height: 420px;
-    aspect-ratio: 16 / 9;
   }
 }
