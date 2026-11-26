@@ -167,10 +167,6 @@ const PRODUTOS = [
   },
 ];
 
-// Tabelas de referência individuais por produto.
-// As medidas precisam ser conferidas com o fornecedor antes de serem
-// consideradas medidas oficiais.
-
 const MEDIDAS_POR_PRODUTO = {
   camisetas: [
     { tamanho: "P", largura: "51 cm", comprimento: "70 cm" },
@@ -327,10 +323,12 @@ function App() {
   const abrirModalMedidas = useCallback((produto) => {
     const medidas = MEDIDAS_POR_PRODUTO[produto.id] || [];
 
+    if (medidas.length === 0) return;
+
     setTamanhoSelecionado(
       medidas.some((item) => item.tamanho === "M")
         ? "M"
-        : medidas[0]?.tamanho || ""
+        : medidas[0].tamanho
     );
 
     setProdutoMedidas(produto);
@@ -372,9 +370,17 @@ function App() {
     };
 
     atualizarProgresso();
-    window.addEventListener("scroll", atualizarProgresso, { passive: true });
 
-    return () => window.removeEventListener("scroll", atualizarProgresso);
+    window.addEventListener("scroll", atualizarProgresso, {
+      passive: true,
+    });
+
+    window.addEventListener("resize", atualizarProgresso);
+
+    return () => {
+      window.removeEventListener("scroll", atualizarProgresso);
+      window.removeEventListener("resize", atualizarProgresso);
+    };
   }, []);
 
   useEffect(() => {
@@ -394,10 +400,14 @@ function App() {
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -30px 0px" }
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -30px 0px",
+      }
     );
 
     elementos.forEach((el) => observer.observe(el));
+
     return () => observer.disconnect();
   }, [produtosFiltrados]);
 
@@ -410,7 +420,9 @@ function App() {
     document.body.classList.add("modal-open");
 
     const aoPressionarTecla = (evento) => {
-      if (evento.key === "Escape") setProdutoMedidas(null);
+      if (evento.key === "Escape") {
+        setProdutoMedidas(null);
+      }
     };
 
     window.addEventListener("keydown", aoPressionarTecla);
@@ -425,6 +437,7 @@ function App() {
     if (!heroRef.current) return;
 
     const rect = heroRef.current.getBoundingClientRect();
+
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
@@ -444,7 +457,10 @@ function App() {
 
       <header className="navbar">
         <a href="#inicio" className="logo" onClick={fecharMenu}>
-          ESTA<span>MIFY</span>
+          <span className="logo-name">
+            ESTA<span>MIFY</span>
+          </span>
+
           <span className="logo-tag">Sua arte • Seu estilo</span>
         </a>
 
@@ -468,7 +484,12 @@ function App() {
           <a href="#produtos" onClick={fecharMenu}>Produtos</a>
           <a href="#tecnicas" onClick={fecharMenu}>Estamparia</a>
           <a href="#sobre" onClick={fecharMenu}>Sobre</a>
-          <a href="#contato" className="nav-contact" onClick={fecharMenu}>
+
+          <a
+            href="#contato"
+            className="nav-contact"
+            onClick={fecharMenu}
+          >
             Fale conosco
           </a>
         </nav>
@@ -532,14 +553,18 @@ function App() {
           <div className="hero-visual">
             <img
               src="/estamify-camisetas-hero.png"
-              alt="Camisetas personalizadas ESTAMIFY, frente e costas"
+              alt=""
               loading="eager"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
             />
           </div>
         </section>
 
         <section className="intro-section reveal" id="sobre">
           <span className="eyebrow">QUEM SOMOS</span>
+
           <h2>Personalização que dá forma à sua identidade.</h2>
 
           <p>
@@ -575,7 +600,9 @@ function App() {
                   role="tab"
                   aria-selected={categoriaAtiva === cat}
                   className={
-                    categoriaAtiva === cat ? "filter-tab active" : "filter-tab"
+                    categoriaAtiva === cat
+                      ? "filter-tab active"
+                      : "filter-tab"
                   }
                   onClick={() => setCategoriaAtiva(cat)}
                 >
@@ -654,7 +681,9 @@ function App() {
                         cor={corAtual}
                       />
 
-                      <span className="product-number">{produto.numero}</span>
+                      <span className="product-number">
+                        {produto.numero}
+                      </span>
 
                       <span className="gallery-label">
                         {vistaAtual.rotulo.toUpperCase()}
@@ -682,8 +711,12 @@ function App() {
                             key={vista.rotulo}
                             type="button"
                             aria-pressed={ativa}
-                            className={ativa ? "thumb-btn active" : "thumb-btn"}
-                            onClick={() => selecionarVista(produto.id, indice)}
+                            className={
+                              ativa ? "thumb-btn active" : "thumb-btn"
+                            }
+                            onClick={() =>
+                              selecionarVista(produto.id, indice)
+                            }
                           >
                             {vista.rotulo}
                           </button>
@@ -756,7 +789,9 @@ function App() {
                           marginLeft: "4px",
                         }}
                       >
-                        {CORES.find((item) => item.valor === corAtual)?.nome}
+                        {CORES.find(
+                          (item) => item.valor === corAtual
+                        )?.nome}
                       </span>
                     </div>
 
@@ -766,6 +801,7 @@ function App() {
                       </span>
 
                       <h3>{produto.nome}</h3>
+
                       <p>{produto.descricao}</p>
 
                       <div className="product-actions">
@@ -911,7 +947,9 @@ function App() {
 
       <footer className="footer">
         <a href="#inicio" className="logo">
-          ESTA<span>MIFY</span>
+          <span className="logo-name">
+            ESTA<span>MIFY</span>
+          </span>
         </a>
 
         <p>
@@ -971,7 +1009,7 @@ function App() {
               role="group"
               aria-label="Selecionar tamanho"
             >
-              {MEDIDAS_POR_PRODUTO[produtoMedidas.id].map((m) => (
+              {(MEDIDAS_POR_PRODUTO[produtoMedidas.id] || []).map((m) => (
                 <button
                   key={m.tamanho}
                   type="button"
@@ -998,24 +1036,28 @@ function App() {
                 </thead>
 
                 <tbody>
-                  {MEDIDAS_POR_PRODUTO[produtoMedidas.id].map((item) => (
-                    <tr
-                      key={item.tamanho}
-                      className={
-                        tamanhoSelecionado === item.tamanho
-                          ? "selected-row"
-                          : undefined
-                      }
-                      onClick={() => setTamanhoSelecionado(item.tamanho)}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <td>
-                        <strong>{item.tamanho}</strong>
-                      </td>
-                      <td>{item.largura}</td>
-                      <td>{item.comprimento}</td>
-                    </tr>
-                  ))}
+                  {(MEDIDAS_POR_PRODUTO[produtoMedidas.id] || []).map(
+                    (item) => (
+                      <tr
+                        key={item.tamanho}
+                        className={
+                          tamanhoSelecionado === item.tamanho
+                            ? "selected-row"
+                            : undefined
+                        }
+                        onClick={() =>
+                          setTamanhoSelecionado(item.tamanho)
+                        }
+                        style={{ cursor: "pointer" }}
+                      >
+                        <td>
+                          <strong>{item.tamanho}</strong>
+                        </td>
+                        <td>{item.largura}</td>
+                        <td>{item.comprimento}</td>
+                      </tr>
+                    )
+                  )}
                 </tbody>
               </table>
             </div>
