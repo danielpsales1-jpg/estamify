@@ -466,43 +466,39 @@ function App() {
       </header>
 
       <main>
+        {/* DESTAQUE PRINCIPAL */}
         <section
-          className="hero"
+          className="hero hero-showcase"
           id="inicio"
           ref={heroRef}
           onMouseMove={handleHeroMouseMove}
         >
           <div className="hero-content">
             <span className="eyebrow">
-              SUA IDEIA • NOSSA ESTAMPA • SUA IDENTIDADE
+              ESTAMIFY • PERSONALIZAÇÃO
             </span>
 
             <h1>
-              Conheça nossas peças.
+              SUA CAMISETA.
               <br />
-              <span>Personalize do seu jeito.</span>
+              <span>SUA IDENTIDADE.</span>
             </h1>
 
             <p>
-              Camisetas, moletons e muito mais para sua marca, empresa,
-              equipe ou evento. Escolha seu modelo e conte pra gente
-              como deseja personalizar.
+              Transforme sua ideia em uma peça exclusiva para sua
+              empresa, equipe ou marca.
             </p>
 
             <div className="hero-actions">
               <a
                 className="button button-gold"
                 href={linkWhatsApp(
-                  "Olá! Vim pelo site da ESTAMIFY e quero personalizar peças. Gostaria de conhecer as opções e consultar os preços. Sei que o pedido mínimo é de 20 peças."
+                  "Olá! Vim pelo site da ESTAMIFY e quero personalizar camisetas. Gostaria de consultar as opções e os preços. Sei que o pedido mínimo é de 20 peças."
                 )}
                 target="_blank"
                 rel="noreferrer"
               >
-                Personalizar pelo WhatsApp <span aria-hidden="true">↗</span>
-              </a>
-
-              <a className="button button-outline" href="#produtos">
-                Conhecer produtos
+                Personalizar minha camiseta <span aria-hidden="true">↗</span>
               </a>
             </div>
 
@@ -511,33 +507,39 @@ function App() {
                 <span className="dot-gold" aria-hidden="true" />
                 Pedido mínimo de 20 peças
               </span>
-              <span className="hero-meta-item">
-                <span className="dot-gold" aria-hidden="true" />
-                Preços sob consulta no WhatsApp
-              </span>
             </div>
           </div>
 
-          <div className="hero-visual">
+          <div className="hero-visual hero-shirt-visual">
             <img
               src="/estamify-camisetas-hero.png"
-              alt="Peças personalizadas ESTAMIFY"
+              alt="Camiseta personalizada ESTAMIFY"
               loading="eager"
               onError={(e) => {
                 e.currentTarget.style.display = "none";
               }}
             />
+            <span className="hero-shirt-caption">
+              PERSONALIZE DO SEU JEITO
+            </span>
           </div>
         </section>
 
+        {/* QUEM SOMOS */}
         <section className="intro-section reveal" id="sobre">
           <span className="eyebrow">QUEM SOMOS</span>
-          <h2>Mais do que uma peça. Uma identidade para vestir.</h2>
+
+          <h2>Sua ideia merece uma identidade própria.</h2>
+
           <p>
-            A ESTAMIFY apresenta opções de camisetas, baby looks, polos,
-            moletons, dry fit e uniformes. Aqui você conhece nossos produtos
-            e escolhe o modelo ideal para transformar sua ideia em uma peça
-            personalizada.
+            A ESTAMIFY transforma ideias em peças personalizadas.
+            Trabalhamos com camisetas, baby looks, polos, moletons,
+            dry fit e uniformes, oferecendo opções para empresas,
+            equipes, eventos e marcas.
+
+            Aqui você conhece nossos modelos e encontra a peça ideal
+            para representar sua identidade. Você escolhe, personaliza
+            e nós cuidamos da produção.
           </p>
         </section>
 
