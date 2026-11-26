@@ -1333,3 +1333,31 @@ section {
     transform: none;
   }
 }
+
+.price-notice {
+  margin: 30px 0;
+  padding: 28px;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.price-notice h3 {
+  margin: 8px 0;
+  color: var(--text);
+  font-size: 1.6rem;
+}
+
+.price-notice p {
+  max-width: 650px;
+  margin-bottom: 18px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.product-price-note {
+  margin-top: 14px;
+  color: var(--accent) !important;
+  font-size: 0.82rem !important;
+  font-weight: 600;
+}

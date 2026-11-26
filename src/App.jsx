@@ -7,6 +7,9 @@ const WHATSAPP = "5511927351844";
 const linkWhatsApp = (mensagem) =>
   `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
 
+const mensagemProduto = (produto) =>
+  `Olá! Vim pelo site da ESTAMIFY e tenho interesse em *${produto}*. Gostaria de conhecer as opções de personalização e consultar os preços. Sei que o pedido mínimo é de 20 peças.`;
+
 const CATEGORIAS = [
   "Todos",
   "Linha Básica",
@@ -58,13 +61,7 @@ function ImagemProduto({ basePath, alt, loading, cor = "#ffffff" }) {
   const imagemAtual = `${basePath}${extensoes[extIndex]}`;
 
   return (
-    <div
-      style={{
-        position: "relative",
-        width: "100%",
-        height: "100%",
-      }}
-    >
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
       <img
         src={imagemAtual}
         alt={alt}
@@ -175,7 +172,6 @@ const MEDIDAS_POR_PRODUTO = {
     { tamanho: "GG", largura: "57 cm", comprimento: "77,5 cm" },
     { tamanho: "G1", largura: "59 cm", comprimento: "80 cm" },
   ],
-
   "camisetas-infantis": [
     { tamanho: "2", largura: "30 cm", comprimento: "40 cm" },
     { tamanho: "4", largura: "33 cm", comprimento: "44 cm" },
@@ -186,7 +182,6 @@ const MEDIDAS_POR_PRODUTO = {
     { tamanho: "14", largura: "46 cm", comprimento: "64 cm" },
     { tamanho: "16", largura: "49 cm", comprimento: "68 cm" },
   ],
-
   "baby-look": [
     { tamanho: "P", largura: "42 cm", comprimento: "56 cm" },
     { tamanho: "M", largura: "48 cm", comprimento: "60 cm" },
@@ -194,7 +189,6 @@ const MEDIDAS_POR_PRODUTO = {
     { tamanho: "GG", largura: "54 cm", comprimento: "64 cm" },
     { tamanho: "G1", largura: "57 cm", comprimento: "66 cm" },
   ],
-
   "manga-longa": [
     { tamanho: "P", largura: "51 cm", comprimento: "70 cm" },
     { tamanho: "M", largura: "53 cm", comprimento: "72,5 cm" },
@@ -202,7 +196,6 @@ const MEDIDAS_POR_PRODUTO = {
     { tamanho: "GG", largura: "57 cm", comprimento: "77,5 cm" },
     { tamanho: "G1", largura: "59 cm", comprimento: "80 cm" },
   ],
-
   "moletom-gorro": [
     { tamanho: "P", largura: "58 cm", comprimento: "65 cm" },
     { tamanho: "M", largura: "60 cm", comprimento: "70 cm" },
@@ -210,7 +203,6 @@ const MEDIDAS_POR_PRODUTO = {
     { tamanho: "GG", largura: "64 cm", comprimento: "75 cm" },
     { tamanho: "G1", largura: "66 cm", comprimento: "77 cm" },
   ],
-
   "moletom-sem-gorro": [
     { tamanho: "P", largura: "58 cm", comprimento: "68 cm" },
     { tamanho: "M", largura: "60 cm", comprimento: "73 cm" },
@@ -277,27 +269,27 @@ const BENEFICIOS = [
 const ETAPAS = [
   {
     num: "01",
-    titulo: "Converse com a gente",
+    titulo: "Escolha sua peça",
     texto:
-      "Informe o modelo desejado, a quantidade (a partir de 20 peças) e sua ideia.",
+      "Conheça os modelos disponíveis e escolha o produto que combina com seu projeto.",
   },
   {
     num: "02",
-    titulo: "Alinhamento do projeto",
+    titulo: "Fale com a gente",
     texto:
-      "Definimos arte, tamanhos, cores e a técnica mais indicada para o seu objetivo.",
+      "Informe a quantidade, os tamanhos e envie sua ideia ou arquivo de estampa pelo WhatsApp.",
   },
   {
     num: "03",
-    titulo: "Produção",
+    titulo: "Receba seu orçamento",
     texto:
-      "Após a aprovação final, iniciamos a produção com atenção aos detalhes.",
+      "Alinhamos arte, cores, técnica de estampa, valores e prazo de produção.",
   },
   {
     num: "04",
-    titulo: "Retirada ou entrega",
+    titulo: "Produção",
     texto:
-      "Acompanhe o andamento e receba conforme combinado no atendimento.",
+      "Após a aprovação do orçamento e da arte, seguimos com a produção do pedido.",
   },
 ];
 
@@ -322,15 +314,13 @@ function App() {
 
   const abrirModalMedidas = useCallback((produto) => {
     const medidas = MEDIDAS_POR_PRODUTO[produto.id] || [];
-
-    if (medidas.length === 0) return;
+    if (!medidas.length) return;
 
     setTamanhoSelecionado(
       medidas.some((item) => item.tamanho === "M")
         ? "M"
         : medidas[0].tamanho
     );
-
     setProdutoMedidas(produto);
   }, []);
 
@@ -361,20 +351,13 @@ function App() {
         return;
       }
 
-      const atual = Math.min(
-        100,
-        Math.max(0, (window.scrollY / alturaTotal) * 100)
+      setProgressoScroll(
+        Math.min(100, Math.max(0, (window.scrollY / alturaTotal) * 100))
       );
-
-      setProgressoScroll(atual);
     };
 
     atualizarProgresso();
-
-    window.addEventListener("scroll", atualizarProgresso, {
-      passive: true,
-    });
-
+    window.addEventListener("scroll", atualizarProgresso, { passive: true });
     window.addEventListener("resize", atualizarProgresso);
 
     return () => {
@@ -400,14 +383,10 @@ function App() {
           }
         });
       },
-      {
-        threshold: 0.12,
-        rootMargin: "0px 0px -30px 0px",
-      }
+      { threshold: 0.12, rootMargin: "0px 0px -30px 0px" }
     );
 
     elementos.forEach((el) => observer.observe(el));
-
     return () => observer.disconnect();
   }, [produtosFiltrados]);
 
@@ -420,9 +399,7 @@ function App() {
     document.body.classList.add("modal-open");
 
     const aoPressionarTecla = (evento) => {
-      if (evento.key === "Escape") {
-        setProdutoMedidas(null);
-      }
+      if (evento.key === "Escape") setProdutoMedidas(null);
     };
 
     window.addEventListener("keydown", aoPressionarTecla);
@@ -437,7 +414,6 @@ function App() {
     if (!heroRef.current) return;
 
     const rect = heroRef.current.getBoundingClientRect();
-
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
@@ -460,7 +436,6 @@ function App() {
           <span className="logo-name">
             ESTA<span>MIFY</span>
           </span>
-
           <span className="logo-tag">Sua arte • Seu estilo</span>
         </a>
 
@@ -484,12 +459,7 @@ function App() {
           <a href="#produtos" onClick={fecharMenu}>Produtos</a>
           <a href="#tecnicas" onClick={fecharMenu}>Estamparia</a>
           <a href="#sobre" onClick={fecharMenu}>Sobre</a>
-
-          <a
-            href="#contato"
-            className="nav-contact"
-            onClick={fecharMenu}
-          >
+          <a href="#contato" className="nav-contact" onClick={fecharMenu}>
             Fale conosco
           </a>
         </nav>
@@ -504,32 +474,31 @@ function App() {
         >
           <div className="hero-content">
             <span className="eyebrow">
-              SILK SCREEN • DTF • IDENTIDADE VISUAL
+              SUA IDEIA • NOSSA ESTAMPA • SUA IDENTIDADE
             </span>
 
             <h1>
-              Sua marca.
+              Conheça nossas peças.
               <br />
-              Sua identidade.
-              <br />
-              <span>Sua estampa.</span>
+              <span>Personalize do seu jeito.</span>
             </h1>
 
             <p>
-              Transformamos ideias em peças personalizadas para marcas,
-              comércios e empresas que buscam presença real no dia a dia.
+              Camisetas, moletons e muito mais para sua marca, empresa,
+              equipe ou evento. Escolha seu modelo e conte pra gente
+              como deseja personalizar.
             </p>
 
             <div className="hero-actions">
               <a
                 className="button button-gold"
                 href={linkWhatsApp(
-                  "Olá! Quero solicitar um orçamento com a ESTAMIFY (a partir de 20 peças)."
+                  "Olá! Vim pelo site da ESTAMIFY e quero personalizar peças. Gostaria de conhecer as opções e consultar os preços. Sei que o pedido mínimo é de 20 peças."
                 )}
                 target="_blank"
                 rel="noreferrer"
               >
-                Solicitar orçamento <span aria-hidden="true">↗</span>
+                Personalizar pelo WhatsApp <span aria-hidden="true">↗</span>
               </a>
 
               <a className="button button-outline" href="#produtos">
@@ -542,10 +511,9 @@ function App() {
                 <span className="dot-gold" aria-hidden="true" />
                 Pedido mínimo de 20 peças
               </span>
-
               <span className="hero-meta-item">
                 <span className="dot-gold" aria-hidden="true" />
-                Prazo médio de 3 a 4 dias úteis*
+                Preços sob consulta no WhatsApp
               </span>
             </div>
           </div>
@@ -553,7 +521,7 @@ function App() {
           <div className="hero-visual">
             <img
               src="/estamify-camisetas-hero.png"
-              alt=""
+              alt="Peças personalizadas ESTAMIFY"
               loading="eager"
               onError={(e) => {
                 e.currentTarget.style.display = "none";
@@ -564,13 +532,12 @@ function App() {
 
         <section className="intro-section reveal" id="sobre">
           <span className="eyebrow">QUEM SOMOS</span>
-
-          <h2>Personalização que dá forma à sua identidade.</h2>
-
+          <h2>Mais do que uma peça. Uma identidade para vestir.</h2>
           <p>
-            A ESTAMIFY trabalha com personalização de camisetas, baby looks,
-            polos, moletons, dry fit e uniformes. Atendemos marcas, comércios
-            e empresas que desejam comunicar sua identidade em cada peça.
+            A ESTAMIFY apresenta opções de camisetas, baby looks, polos,
+            moletons, dry fit e uniformes. Aqui você conhece nossos produtos
+            e escolhe o modelo ideal para transformar sua ideia em uma peça
+            personalizada.
           </p>
         </section>
 
@@ -578,13 +545,32 @@ function App() {
           <div className="section-heading">
             <div>
               <span className="eyebrow">NOSSO CATÁLOGO</span>
-              <h2>Encontre sua peça.</h2>
+              <h2>Escolha sua peça. A estampa é com você.</h2>
             </div>
-
             <p>
-              Filtre por categoria ou pesquise o modelo ideal, alterne entre
-              frente, costas e mangas e solicite seu orçamento no WhatsApp.
+              Explore os modelos, confira as cores e veja os detalhes.
+              Para personalizar e consultar valores, fale diretamente
+              com a nossa equipe pelo WhatsApp.
             </p>
+          </div>
+
+          <div className="price-notice">
+            <span className="eyebrow">ORÇAMENTO PELO WHATSAPP</span>
+            <h3>Preços sob consulta</h3>
+            <p>
+              Os valores dependem do modelo, quantidade, tamanhos e tipo
+              de personalização. Entre em contato para receber seu orçamento.
+            </p>
+            <a
+              className="button button-gold"
+              href={linkWhatsApp(
+                "Olá! Gostaria de consultar os preços dos produtos e opções de personalização da ESTAMIFY."
+              )}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Consultar preços <span aria-hidden="true">↗</span>
+            </a>
           </div>
 
           <div className="catalog-toolbar">
@@ -600,9 +586,7 @@ function App() {
                   role="tab"
                   aria-selected={categoriaAtiva === cat}
                   className={
-                    categoriaAtiva === cat
-                      ? "filter-tab active"
-                      : "filter-tab"
+                    categoriaAtiva === cat ? "filter-tab active" : "filter-tab"
                   }
                   onClick={() => setCategoriaAtiva(cat)}
                 >
@@ -615,7 +599,7 @@ function App() {
               <input
                 type="search"
                 className="search-input"
-                placeholder="Buscar peça (ex: polo, moletom, dry fit)..."
+                placeholder="Buscar peça (ex: camiseta, moletom)..."
                 value={busca}
                 onChange={(e) => setBusca(e.target.value)}
                 aria-label="Buscar produto no catálogo"
@@ -640,7 +624,6 @@ function App() {
                 Nenhuma peça encontrada para &ldquo;{busca}&rdquo; na
                 categoria <strong>{categoriaAtiva}</strong>.
               </p>
-
               <button
                 type="button"
                 className="button button-outline"
@@ -681,10 +664,7 @@ function App() {
                         cor={corAtual}
                       />
 
-                      <span className="product-number">
-                        {produto.numero}
-                      </span>
-
+                      <span className="product-number">{produto.numero}</span>
                       <span className="gallery-label">
                         {vistaAtual.rotulo.toUpperCase()}
                       </span>
@@ -711,12 +691,8 @@ function App() {
                             key={vista.rotulo}
                             type="button"
                             aria-pressed={ativa}
-                            className={
-                              ativa ? "thumb-btn active" : "thumb-btn"
-                            }
-                            onClick={() =>
-                              selecionarVista(produto.id, indice)
-                            }
+                            className={ativa ? "thumb-btn active" : "thumb-btn"}
+                            onClick={() => selecionarVista(produto.id, indice)}
                           >
                             {vista.rotulo}
                           </button>
@@ -743,7 +719,7 @@ function App() {
                           marginBottom: "2px",
                         }}
                       >
-                        ESCOLHA A COR
+                        CORES DISPONÍVEIS
                       </span>
 
                       {CORES.map((item) => {
@@ -789,9 +765,7 @@ function App() {
                           marginLeft: "4px",
                         }}
                       >
-                        {CORES.find(
-                          (item) => item.valor === corAtual
-                        )?.nome}
+                        {CORES.find((item) => item.valor === corAtual)?.nome}
                       </span>
                     </div>
 
@@ -801,8 +775,11 @@ function App() {
                       </span>
 
                       <h3>{produto.nome}</h3>
-
                       <p>{produto.descricao}</p>
+
+                      <p className="product-price-note">
+                        Preço e personalização sob consulta.
+                      </p>
 
                       <div className="product-actions">
                         <button
@@ -815,13 +792,11 @@ function App() {
 
                         <a
                           className="product-whatsapp"
-                          href={linkWhatsApp(
-                            `Olá! Tenho interesse em *${produto.nome}* (mín. 20 peças). Gostaria de solicitar um orçamento.`
-                          )}
+                          href={linkWhatsApp(mensagemProduto(produto.nome))}
                           target="_blank"
                           rel="noreferrer"
                         >
-                          Consultar <span aria-hidden="true">↗</span>
+                          Personalizar e consultar <span aria-hidden="true">↗</span>
                         </a>
                       </div>
                     </div>
@@ -832,8 +807,9 @@ function App() {
           )}
 
           <p className="catalog-note">
-            Imagens ilustrativas. Cores, gramaturas, modelos e disponibilidade
-            devem ser confirmados no atendimento.
+            Este site é uma apresentação dos produtos ESTAMIFY. As imagens
+            são ilustrativas. Modelos, cores, disponibilidade e valores
+            devem ser confirmados pelo WhatsApp.
           </p>
         </section>
 
@@ -841,12 +817,11 @@ function App() {
           <div className="section-heading">
             <div>
               <span className="eyebrow">NOSSA ESTAMPARIA</span>
-              <h2>Tecnologia e acabamento.</h2>
+              <h2>Sua ideia ganha vida na estampa.</h2>
             </div>
-
             <p>
-              Indicamos a técnica ideal de acordo com a sua arte, tecido e
-              volume de produção.
+              Conheça algumas das técnicas que utilizamos para transformar
+              suas artes em peças personalizadas.
             </p>
           </div>
 
@@ -857,7 +832,6 @@ function App() {
                 <span className="tech-label">{tecnica.nome}</span>
                 <h3>{tecnica.titulo}</h3>
                 <p>{tecnica.descricao}</p>
-
                 <ul>
                   {tecnica.pontos.map((ponto) => (
                     <li key={ponto}>{ponto}</li>
@@ -885,7 +859,7 @@ function App() {
 
         <section className="process-section reveal">
           <span className="eyebrow">COMO FUNCIONA</span>
-          <h2>Do primeiro contato à peça pronta.</h2>
+          <h2>Conheça. Escolha. Personalize.</h2>
 
           <div className="process-grid">
             {ETAPAS.map((etapa) => (
@@ -902,45 +876,44 @@ function App() {
           <div>
             <span className="eyebrow">INFORMAÇÕES IMPORTANTES</span>
             <h2>Vamos tirar sua ideia do papel?</h2>
-
             <p>
-              Trabalhamos com <strong>pedido mínimo de 20 peças</strong>. O
-              prazo estimado de produção é de <strong>3 a 4 dias</strong>,
-              sujeito à confirmação conforme o modelo, quantidade e detalhes
-              do pedido.
+              Trabalhamos com <strong>pedido mínimo de 20 peças</strong>.
+              Os preços são informados pelo WhatsApp e variam conforme
+              o produto, a quantidade, os tamanhos e a personalização.
+              Consulte nossa equipe para receber seu orçamento.
             </p>
           </div>
 
           <a
             className="button button-gold"
             href={linkWhatsApp(
-              "Olá! Quero conversar sobre um pedido (mínimo 20 peças) para minha marca/empresa."
+              "Olá! Quero conhecer as opções de produtos personalizados da ESTAMIFY e consultar os preços. Sei que o pedido mínimo é de 20 peças."
             )}
             target="_blank"
             rel="noreferrer"
           >
-            Conversar pelo WhatsApp <span aria-hidden="true">↗</span>
+            Consultar pelo WhatsApp <span aria-hidden="true">↗</span>
           </a>
         </section>
 
         <section className="contact-section reveal" id="contato">
           <span className="eyebrow">FALE COM A ESTAMIFY</span>
-          <h2>Seu próximo projeto começa aqui.</h2>
-
+          <h2>Tem uma ideia? Vamos personalizar!</h2>
           <p>
-            Fale com nossa equipe para consultar modelos, tamanhos, técnicas
-            de estampa, quantidades e orçamento personalizado.
+            Escolha seu produto, conte o que você precisa e envie sua arte
+            pelo WhatsApp. Nossa equipe conversa com você e prepara seu
+            orçamento.
           </p>
 
           <a
             className="button button-gold"
             href={linkWhatsApp(
-              "Olá! Vim pelo site da ESTAMIFY e gostaria de solicitar um orçamento."
+              "Olá! Vim pelo site da ESTAMIFY. Quero personalizar minhas peças e consultar os preços."
             )}
             target="_blank"
             rel="noreferrer"
           >
-            <span>WhatsApp</span> <span aria-hidden="true">↗</span>
+            <span>Falar com a equipe</span> <span aria-hidden="true">↗</span>
           </a>
         </section>
       </main>
@@ -963,7 +936,9 @@ function App() {
 
       <a
         className="floating-whatsapp"
-        href={linkWhatsApp("Olá! Gostaria de falar com a ESTAMIFY.")}
+        href={linkWhatsApp(
+          "Olá! Vim pelo site da ESTAMIFY e gostaria de consultar produtos, personalização e preços."
+        )}
         target="_blank"
         rel="noreferrer"
         aria-label="Falar com a ESTAMIFY pelo WhatsApp"
@@ -993,15 +968,12 @@ function App() {
             </button>
 
             <span className="eyebrow">GUIA DE TAMANHOS</span>
-
-            <h2 id="titulo-modal-medidas">
-              {produtoMedidas.nome}
-            </h2>
+            <h2 id="titulo-modal-medidas">{produtoMedidas.nome}</h2>
 
             <p className="modal-description">
-              Tabela de referência (largura × comprimento). As medidas podem
-              variar conforme o tecido, corte e modelagem. Selecione um tamanho
-              para consultar pelo WhatsApp:
+              Tabela de referência (largura × comprimento). As medidas
+              podem variar conforme o tecido, corte e modelagem. Selecione
+              um tamanho para consultar pelo WhatsApp:
             </p>
 
             <div
@@ -1034,7 +1006,6 @@ function App() {
                     <th>Comprimento</th>
                   </tr>
                 </thead>
-
                 <tbody>
                   {(MEDIDAS_POR_PRODUTO[produtoMedidas.id] || []).map(
                     (item) => (
@@ -1045,14 +1016,10 @@ function App() {
                             ? "selected-row"
                             : undefined
                         }
-                        onClick={() =>
-                          setTamanhoSelecionado(item.tamanho)
-                        }
+                        onClick={() => setTamanhoSelecionado(item.tamanho)}
                         style={{ cursor: "pointer" }}
                       >
-                        <td>
-                          <strong>{item.tamanho}</strong>
-                        </td>
+                        <td><strong>{item.tamanho}</strong></td>
                         <td>{item.largura}</td>
                         <td>{item.comprimento}</td>
                       </tr>
@@ -1065,13 +1032,12 @@ function App() {
             <a
               className="button button-gold modal-cta"
               href={linkWhatsApp(
-                `Olá! Gostaria de confirmar as medidas de *${produtoMedidas.nome}*, tamanho *${tamanhoSelecionado}* (mín. 20 peças).`
+                `Olá! Gostaria de consultar as medidas de *${produtoMedidas.nome}*, tamanho *${tamanhoSelecionado}*, e também receber informações de personalização e preço.`
               )}
               target="_blank"
               rel="noreferrer"
             >
-              Confirmar {tamanhoSelecionado} no WhatsApp{" "}
-              <span aria-hidden="true">↗</span>
+              Consultar tamanho no WhatsApp <span aria-hidden="true">↗</span>
             </a>
           </div>
         </div>
